@@ -130,13 +130,25 @@ namespace NewApp
     public class SomeViewModel : ISomeViewModel
     {
         [ThreadingStrategy(ThreadingStrategyMode = ThreadingStrategyMode.Background)]
-        public virtual void DoTask()
+        public virtual void DoTaskInBackground()
         {
             
         }
 
         [ThreadingStrategy(ThreadingStrategyMode = ThreadingStrategyMode.NewBackground)]
-        protected virtual void PrivateDoTask()
+        protected virtual void PrivateDoTaskAlwaysInANewBackgound()
+        {
+            
+        }
+        
+        [ThreadingStrategy(ThreadingStrategyMode = ThreadingStrategyMode.Dispatcher)]
+        public virtual void DoTaskOnDispatcher()
+        {
+            
+        }
+        
+        [ThreadingStrategy(ThreadingStrategyMode = ThreadingStrategyMode.CallingThread)]
+        public virtual void DoTaskOnTheCallingThread()
         {
             
         }
