@@ -122,7 +122,7 @@ namespace NewApp
 }
 ```
 ### ThreadingStrategy
-The `ThreadingStrategy` will place the method on the appropriate thread to be executed.
+The `ThreadingStrategy` will place the method on the appropriate thread to be executed. Threaded methods should only return the type `void`.
 ```csharp
 namespace NewApp
 {
