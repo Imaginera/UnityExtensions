@@ -77,7 +77,7 @@ namespace NewApp
     }
 }
 ```
-In order for interception to work, methods and properties that use these attributes need to `overridable`. Therefore, they need to be marked with `virtual` or `protected virtual`.
+In order for interception to work, methods and properties that use these attributes need to `overridable`. Therefore, they need to be marked with `virtual`.
 ## Applying Intercept Attributes
 ### NotifyPropertyChanged
 The `NotifyPropertyChanged` attribute is a simpler way to apply the `PropertyChanged` event to a property.
