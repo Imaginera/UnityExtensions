@@ -1,7 +1,7 @@
 UnityExtensions
 ===============
 
-AOP Extensions to Unity
+AOP Extensions for Unity
 
 ## Extensions Setup
 
