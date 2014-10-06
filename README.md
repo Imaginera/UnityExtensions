@@ -21,6 +21,8 @@ foreach (var error in this.Container.ValidateConfiguration())
 }
 ```
 
+`ValidateConfiguration` will contain a list of any errors that the current configuration has. These can range from not  decorating an intercept class that contain intercept attributes to having the incorrect access modifiers on intercepted methods or properties.
+
 ## Configuring Registrations
 
 It is possible to instruct Unity on how to manage your object by using the `LifeTimeManager` attribute on a class:
