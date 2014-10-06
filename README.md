@@ -23,7 +23,7 @@ foreach (var error in this.Container.ValidateConfiguration())
 
 ## Configuring Registrations
 
-To configure the LifeTimeManager for a class:
+It is possible to instruct Unity on how to manage your object by using the `LifeTimeManager` attribute on a class:
 ```csharp
 namespace NewApp
 {
@@ -33,7 +33,7 @@ namespace NewApp
     }
 }
 ```
-If you were creating a design view model that inherited the same interface as the runtime one, you can tell unity not register that view model using the ExcludeRegistration attribute:
+If you were creating a design time view model that inherited the same interface as the runtime view model, you can instruct Unity not to register that view model using the `ExcludeRegistration` attribute:
 ```csharp
 namespace NewApp.DesignTime
 {
@@ -43,7 +43,7 @@ namespace NewApp.DesignTime
     }
 }
 ```
-If you have many concrete types inheriting from the same interface, you can name these registrations to let unity know which concrete type to fetch using the NameRegistration.
+If you have many concrete types inheriting from the same interface, you can name these registrations to let Unity know which concrete type to `Resolve` using the `NameRegistration`.
 ```csharp
 namespace NewApp.DesignTime
 {
@@ -53,7 +53,7 @@ namespace NewApp.DesignTime
     }
 }
 ```
-The unity extensions also allow you to register a type to another specified type by using the RegisterAsType attribute.
+The Unity extensions allow you to register a type to another specified type by using the `RegisterAsType` attribute.
 ```csharp
 namespace NewApp.Views
 {
@@ -61,6 +61,85 @@ namespace NewApp.Views
     [RegisterAsType(RegistrationType = typeof(object))]
     public partial class NewAppMainView
     {
+    }
+}
+```
+## Setting up Interception
+To setup a class to be intercepted it needs to be decorated with the `InterceptClass` attribute:
+```csharp
+namespace NewApp
+{
+    [InterceptClass]
+    public class SomeViewModel : ISomeViewModel
+    {
+    }
+}
+```
+In order for interception to work methods and properties that use the attributes need to `overridable`, therefore they need to be marked with `virtual` or `protected virtual`.
+## Applying Intercept Attributes
+### NotifyPropertyChanged
+The `NotifyPropertyChanged` attribute is a simpler way to apply the `PropertyChanged` event to a property.
+
+```csharp
+namespace NewApp
+{
+    [InterceptClass]
+    public class SomeViewModel : ISomeViewModel, INotifyPropertyChanged
+    {
+         public event PropertyChangedEventHandler PropertyChanged;
+ 
+         [NotifyPropertyChanged]
+         public virtual string Text { get; set; }
+    }
+}
+```
+### Log
+The `Log` attribute will output method usage using the specified logger
+```csharp
+namespace NewApp
+{
+    [InterceptClass]
+    public class SomeViewModel : ISomeViewModel
+    {
+         [Log(Priority = 2, Severity = TraceEventType.Information, Category = "ViewModels")]
+         public virtual void ApplyLogic()
+         {
+            // method logic.
+         }
+    }
+}
+```
+### PersistedProperty
+```csharp
+namespace NewApp
+{
+    [InterceptClass]
+    public class SomeViewModel : ISomeViewModel
+    {
+         [PersistedProperty("F98B4D43-AA8F-44D4-B0FA-482ADC2A6611")]
+         public virtual string Text { get; set; }
+    }
+}
+```
+### ThreadingStrategy
+The `ThreadingStrategy` will place the method on the appropriate thread to be executed.
+```csharp
+namespace NewApp
+{
+    [InterceptClass]
+    public class SomeViewModel : ISomeViewModel
+    {
+        [ThreadingStrategy(ThreadingStrategyMode = ThreadingStrategyMode.Background)]
+        public virtual void DoTask()
+        {
+            
+        }
+
+        [ThreadingStrategy(ThreadingStrategyMode = ThreadingStrategyMode.NewBackground)]
+        protected virtual void PrivateDoTask()
+        {
+            
+        }
     }
 }
 ```
