@@ -5,7 +5,7 @@ AOP Extensions for Unity
 
 ## Extensions Setup
 
-To utilise the AutoConfigure extension, call the method passing in the project assemblies. Before this is done the logging application block is configured.
+To utilise the `AutoConfigure` extension, call the method passing in the project assemblies. Before this is done the logging application block is configured.
 
 ```csharp
 var configurationSource = ConfigurationSourceFactory.Create();
