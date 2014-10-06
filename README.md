@@ -33,7 +33,7 @@ namespace NewApp
     }
 }
 ```
-If you were creating a design time view model that inherited the same interface as the runtime view model, you can instruct Unity not to register that view model using the `ExcludeRegistration` attribute:
+Unity can be instructed not to register a class using the `ExcludeRegistration` attribute:
 ```csharp
 namespace NewApp.DesignTime
 {
