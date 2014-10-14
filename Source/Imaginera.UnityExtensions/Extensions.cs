@@ -5,6 +5,7 @@
     using System.ComponentModel;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.InteropServices;
 
     using Imaginera.UnityExtensions.Factory;
     using Imaginera.UnityExtensions.Interception;
@@ -202,10 +203,13 @@
                 }
 
                 // virtual properties
+                // Read: http://msdn.microsoft.com/en-us/library/system.reflection.methodbase.isvirtual(v=vs.110).aspx
+                // It details that IsFinal needs to be checked as well to see if something is overridable.
                 foreach (var member in mappedType
-                    .GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
-                    .Where(x => x.GetCustomAttributes<InterceptMethodAttribute>(true).Any())
-                    .Where(x => x.GetGetMethod() != null && !x.GetGetMethod().IsVirtual))
+                                        .GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
+                                        .Where(x => x.GetCustomAttributes<InterceptMethodAttribute>(true).Any())
+                                        .Where(x => x.GetGetMethod() != null)
+                                        .Where(x => !(x.GetGetMethod().IsVirtual && !x.GetGetMethod().IsFinal)))
                 {
                     string message = string.Format(
                         "Non virtual property {0} in type {1} will not be intercepted. Mark property as virtual",

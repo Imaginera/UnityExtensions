@@ -47,26 +47,27 @@
             var validationMessages = container.ValidateConfiguration();
 
             Assert.AreEqual(9, validationMessages.Count);
-
             /*
-            Assert.AreEqual(11, validationMessages.Count);
-
             Assert.IsTrue(validationMessages.Contains("Non virtual property NotifyProperty in type Imaginera.UnityExtensions.Test.UnitTests.SpecificValidations.NotifyClass will not be intercepted. Mark property as virtual"));
+
+            
             Assert.IsTrue(validationMessages.Contains("Property NotifyProperty in type Imaginera.UnityExtensions.Test.UnitTests.SpecificValidations.NotifyClass will not raise property changed notifications. Change property to at least have a setter"));
+            
+            Assert.IsTrue(validationMessages.Contains("Private property NotifyProperty in type Imaginera.UnityExtensions.Test.UnitTests.SpecificValidations.NotifyClass will not raise property changed notifications. Change property to be at least protected"));
             */
-         }
+        }
     }
 
     public interface INotifyClass
     {
-        string NotifyProperty { get; set; }
+        string NotifyProperty { get; }
     }
 
     [InterceptClass]
     public class NotifyClass : CustomViewModel, INotifyClass
     {
         [NotifyPropertyChanged]
-        public string NotifyProperty { get; set; }
+        public virtual string NotifyProperty { get; protected set; }
     }
 
     public class ViewModelBase : INotifyPropertyChanged
